@@ -6,7 +6,7 @@ import (
 )
 
 // NewWatermillPublisher adalah konstruktor untuk WatermillPublisher.
-func NewRabbitMQPublisher(descriptor string, maxRetries int, log bool) WatermillPublisher {
+func NewRabbitMQPublisher(descriptor string, maxRetries int, log bool) (WatermillPublisher, error) {
 	pub, err := amqp.NewPublisher(amqp.Config{
 		Connection: amqp.ConnectionConfig{
 			AmqpURI: descriptor,
@@ -43,10 +43,10 @@ func NewRabbitMQPublisher(descriptor string, maxRetries int, log bool) Watermill
 		TopologyBuilder: &amqp.DefaultTopologyBuilder{},
 	}, watermill.NewStdLogger(log, log))
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	return &watermillPublisher{
 		publisher:  pub,
 		maxRetries: maxRetries,
-	}
+	}, nil
 }

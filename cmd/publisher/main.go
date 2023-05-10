@@ -11,7 +11,7 @@ func main() {
 	rabbitmqURL := "amqp://guest:guest@localhost:5672/"
 
 	// Initialize WatermillPublisher
-	abc := publisher.NewRabbitMQPublisher(rabbitmqURL, 5, false)
+	abc, _ := publisher.NewRabbitMQPublisher(rabbitmqURL, 5, false)
 
 	// Prepare a message
 	msg := message.NewMessage("message_uuid", []byte("Hello, world!"))
