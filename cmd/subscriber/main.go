@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/dwlpra/pubsub/pkg/subscriber"
+	"github.com/dwlpra/pubsubs/pkg/subscriber"
 )
 
 func main() {

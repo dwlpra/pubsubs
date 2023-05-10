@@ -1,4 +1,4 @@
-module github.com/dwlpra/pubsub
+module github.com/dwlpra/pubsubs
 
 go 1.20
 

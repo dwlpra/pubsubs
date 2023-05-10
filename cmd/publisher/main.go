@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ThreeDotsLabs/watermill/message"
-	"github.com/dwlpra/pubsub/pkg/publisher"
+	"github.com/dwlpra/pubsubs/pkg/publisher"
 )
 
 func main() {
