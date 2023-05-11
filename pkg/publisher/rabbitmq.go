@@ -6,7 +6,7 @@ import (
 )
 
 // NewWatermillPublisher adalah konstruktor untuk WatermillPublisher.
-func NewRabbitMQPublisher(descriptor string, maxRetries int, log bool) (WatermillPublisher, error) {
+func NewRabbitMQPublisher(descriptor, exchange string, maxRetries int, log bool) (WatermillPublisher, error) {
 	pub, err := amqp.NewPublisher(amqp.Config{
 		Connection: amqp.ConnectionConfig{
 			AmqpURI: descriptor,
@@ -14,7 +14,7 @@ func NewRabbitMQPublisher(descriptor string, maxRetries int, log bool) (Watermil
 		Marshaler: amqp.DefaultMarshaler{},
 		Exchange: amqp.ExchangeConfig{
 			GenerateName: func(topic string) string {
-				return topic
+				return exchange
 			},
 			Type: "topic",
 		},

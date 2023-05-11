@@ -6,7 +6,7 @@ import (
 )
 
 // NewRabbitMQSubscriber adalah konstruktor untuk WatermillSubscriber.
-func NewRabbitMQSubscriber(descriptor string, log bool) (WatermillSubscriber, error) {
+func NewRabbitMQSubscriber(descriptor, exchange string, log bool) (WatermillSubscriber, error) {
 	sub, err := amqp.NewSubscriber(amqp.Config{
 		Connection: amqp.ConnectionConfig{
 			AmqpURI: descriptor,
@@ -14,7 +14,7 @@ func NewRabbitMQSubscriber(descriptor string, log bool) (WatermillSubscriber, er
 		Marshaler: amqp.DefaultMarshaler{},
 		Exchange: amqp.ExchangeConfig{
 			GenerateName: func(topic string) string {
-				return topic
+				return exchange
 			},
 			Type: "topic",
 		},
