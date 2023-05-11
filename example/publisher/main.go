@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill/message"
 	"github.com/dwlpra/pubsubs/pkg/publisher"
 )
@@ -14,7 +15,8 @@ func main() {
 	abc, _ := publisher.NewRabbitMQPublisher(rabbitmqURL, "exchange_name", 5, false)
 
 	// Prepare a message
-	msg := message.NewMessage("message_uuid", []byte("Hello, world!"))
+
+	msg := message.NewMessage(watermill.NewUUID(), []byte("Hello, world!"))
 
 	// Publish a message using WatermillPublisher
 	for i := 0; i < 99999; i++ {

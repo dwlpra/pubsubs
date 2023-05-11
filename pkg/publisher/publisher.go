@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill/message"
 )
 
 // Publisher adalah interface yang harus diimplementasikan oleh jenis publisher apa pun.
 type WatermillPublisher interface {
-	Publish(topic string, messages ...*message.Message) error
+	Publish(topic string, messages interface{}) error
 	Close() error
 }
 
@@ -21,14 +22,14 @@ type watermillPublisher struct {
 
 // PublishWithRetry melakukan publish pesan dengan Watermill dan melakukan retry jika gagal.
 // Retry dilakukan dengan waktu tunggu yang dinamis berdasarkan jumlah retry yang sudah dilakukan.
-func (p *watermillPublisher) PublishWithRetry(topic string, msgs ...*message.Message) error {
+func (p *watermillPublisher) PublishWithRetry(topic string, msgs interface{}) error {
 
 	var err error
 	retries := 0
-
+	msg := message.NewMessage(watermill.NewUUID(), []byte(msgs.(string)))
 	for retries <= p.maxRetries {
 
-		err = p.publisher.Publish(topic, msgs...)
+		err = p.publisher.Publish(topic, msg)
 		if err == nil {
 			return nil
 		}
@@ -47,8 +48,8 @@ func (p *watermillPublisher) PublishWithRetry(topic string, msgs ...*message.Mes
 }
 
 // Publish melakukan publish pesan dengan Watermill dan melakukan retry jika gagal.
-func (p *watermillPublisher) Publish(topic string, msgs ...*message.Message) error {
-	err := p.PublishWithRetry(topic, msgs...)
+func (p *watermillPublisher) Publish(topic string, msgs interface{}) error {
+	err := p.PublishWithRetry(topic, msgs)
 	if err != nil {
 		return err
 	}
