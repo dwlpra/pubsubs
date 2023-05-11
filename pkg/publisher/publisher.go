@@ -1,6 +1,7 @@
 package publisher
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -26,9 +27,14 @@ func (p *watermillPublisher) PublishWithRetry(topic string, msgs interface{}) er
 
 	var err error
 	retries := 0
-	msg := message.NewMessage(watermill.NewUUID(), []byte(msgs.(string)))
-	for retries <= p.maxRetries {
 
+	dataBytes, err := json.Marshal(msgs)
+	if err != nil {
+		return err
+	}
+	msg := message.NewMessage(watermill.NewUUID(), dataBytes)
+
+	for retries <= p.maxRetries {
 		err = p.publisher.Publish(topic, msg)
 		if err == nil {
 			return nil
