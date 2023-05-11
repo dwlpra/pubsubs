@@ -16,7 +16,8 @@ func NewRabbitMQSubscriber(descriptor, exchange string, log bool) (WatermillSubs
 			GenerateName: func(topic string) string {
 				return exchange
 			},
-			Type: "topic",
+			Type:    "topic",
+			Durable: true,
 		},
 		Queue: amqp.QueueConfig{
 			GenerateName: func(topic string) string {

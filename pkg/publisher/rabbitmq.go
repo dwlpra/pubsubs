@@ -16,7 +16,8 @@ func NewRabbitMQPublisher(descriptor, exchange string, maxRetries int, log bool)
 			GenerateName: func(topic string) string {
 				return exchange
 			},
-			Type: "topic",
+			Type:    "topic",
+			Durable: true,
 		},
 		Queue: amqp.QueueConfig{
 			GenerateName: func(topic string) string {
