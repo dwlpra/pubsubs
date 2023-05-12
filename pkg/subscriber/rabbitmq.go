@@ -1,6 +1,8 @@
 package subscriber
 
 import (
+	"fmt"
+
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill-amqp/pkg/amqp"
 )
@@ -27,12 +29,12 @@ func NewRabbitMQSubscriber(descriptor, exchange string, log bool) (WatermillSubs
 		},
 		QueueBind: amqp.QueueBindConfig{
 			GenerateRoutingKey: func(topic string) string {
-				return topic
+				return fmt.Sprintf("%s.%s", exchange, topic)
 			},
 		},
 		Publish: amqp.PublishConfig{
 			GenerateRoutingKey: func(topic string) string {
-				return topic
+				return fmt.Sprintf("%s.%s", exchange, topic)
 			},
 			Mandatory: true,
 		},

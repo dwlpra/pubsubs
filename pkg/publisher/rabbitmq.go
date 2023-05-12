@@ -1,6 +1,8 @@
 package publisher
 
 import (
+	"fmt"
+
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill-amqp/pkg/amqp"
 )
@@ -27,12 +29,12 @@ func NewRabbitMQPublisher(descriptor, exchange string, maxRetries int, log bool)
 		},
 		QueueBind: amqp.QueueBindConfig{
 			GenerateRoutingKey: func(topic string) string {
-				return topic
+				return fmt.Sprintf("%s.%s", exchange, topic)
 			},
 		},
 		Publish: amqp.PublishConfig{
 			GenerateRoutingKey: func(topic string) string {
-				return topic
+				return fmt.Sprintf("%s.%s", exchange, topic)
 			},
 			Mandatory: true,
 		},
