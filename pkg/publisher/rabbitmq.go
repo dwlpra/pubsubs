@@ -1,14 +1,12 @@
 package publisher
 
 import (
-	"fmt"
-
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill-amqp/pkg/amqp"
 )
 
 // NewWatermillPublisher adalah konstruktor untuk WatermillPublisher.
-func NewRabbitMQPublisher(descriptor, exchange string, maxRetries int, log bool) (WatermillPublisher, error) {
+func NewRabbitMQPublisher(descriptor, exchange, routingKey string, maxRetries int, log bool) (WatermillPublisher, error) {
 	pub, err := amqp.NewPublisher(amqp.Config{
 		Connection: amqp.ConnectionConfig{
 			AmqpURI: descriptor,
@@ -29,12 +27,12 @@ func NewRabbitMQPublisher(descriptor, exchange string, maxRetries int, log bool)
 		},
 		QueueBind: amqp.QueueBindConfig{
 			GenerateRoutingKey: func(topic string) string {
-				return fmt.Sprintf("%s.%s", exchange, topic)
+				return routingKey
 			},
 		},
 		Publish: amqp.PublishConfig{
 			GenerateRoutingKey: func(topic string) string {
-				return fmt.Sprintf("%s.%s", exchange, topic)
+				return routingKey
 			},
 			Mandatory: true,
 		},

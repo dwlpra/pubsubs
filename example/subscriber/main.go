@@ -14,7 +14,7 @@ import (
 
 func main() {
 	// Ganti "amqp://guest:guest@localhost:5672/" dengan string koneksi RabbitMQ Anda
-	sub, err := subscriber.NewRabbitMQSubscriber("amqp://guest:guest@localhost:5672/", "exchange_name", true)
+	sub, err := subscriber.NewRabbitMQSubscriber("amqp://guest:guest@localhost:5672/", "exchange_name", "routing_key", true)
 	if err != nil {
 		log.Fatalf("Failed to create subscriber: %v", err)
 	}
