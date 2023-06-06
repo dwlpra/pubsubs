@@ -6,7 +6,7 @@ import (
 )
 
 // NewRabbitMQSubscriber adalah konstruktor untuk WatermillSubscriber.
-func NewRabbitMQSubscriber(descriptor, exchange, routingKey string, log bool) (WatermillSubscriber, error) {
+func NewRabbitMQSubscriber(descriptor, exchange string, log bool) (WatermillSubscriber, error) {
 	sub, err := amqp.NewSubscriber(amqp.Config{
 		Connection: amqp.ConnectionConfig{
 			AmqpURI: descriptor,
@@ -27,12 +27,12 @@ func NewRabbitMQSubscriber(descriptor, exchange, routingKey string, log bool) (W
 		},
 		QueueBind: amqp.QueueBindConfig{
 			GenerateRoutingKey: func(topic string) string {
-				return routingKey
+				return topic
 			},
 		},
 		Publish: amqp.PublishConfig{
 			GenerateRoutingKey: func(topic string) string {
-				return routingKey
+				return topic
 			},
 			Mandatory: true,
 		},

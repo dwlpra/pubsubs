@@ -14,7 +14,7 @@ import (
 
 func main() {
 	// Ganti "amqp://guest:guest@localhost:5672/" dengan string koneksi RabbitMQ Anda
-	sub, err := subscriber.NewRabbitMQSubscriber("amqp://guest:guest@localhost:5672/", "exchange_name", "routing_key", true)
+	sub, err := subscriber.NewRabbitMQSubscriber("amqp://guest:guest@localhost:5672/", "abc", true)
 	if err != nil {
 		log.Fatalf("Failed to create subscriber: %v", err)
 	}
@@ -23,7 +23,7 @@ func main() {
 	defer cancel()
 
 	// Ganti "your_topic" dengan topik yang ingin Anda subscribe
-	msgs, err := sub.Subscribe(ctx, "like_tt")
+	msgs, err := sub.Subscribe(ctx, "sss")
 	if err != nil {
 		log.Fatalf("Failed to subscribe to topic: %v", err)
 	}
